@@ -1,0 +1,13 @@
+.bg-pattern {
+    background-image: url("../public/white-fabric.webp");
+}
+
+/* font-size */
+h1 {
+    font-size: 3.2em;
+    line-height: 1.1;
+}
+
+h3{
+    font-size: 20px;
+}
