@@ -4,6 +4,7 @@
       <li></li>
     </ul>
     <h1 class="text-3xl font-bold underline">首頁</h1>
+    <div>選項</div>
   </div>
 </template>
 
