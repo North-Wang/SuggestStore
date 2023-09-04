@@ -1,11 +1,13 @@
 <template>
   <footer class="footer h-25 flex justify-center py-4">
     <div class="flex" style="gap: 20px">
-      <button><router-link to="/">Home</router-link></button>
+      <router-link to="/">
+        <button>Home</button>
+      </router-link>
 
-      <button>
-        <router-link to="/StoreList">StoreList</router-link>
-      </button>
+      <router-link to="/StoreList">
+        <button>StoreList</button>
+      </router-link>
     </div>
   </footer>
 </template>
@@ -19,7 +21,7 @@ footer {
   /* background-color: #FFF5E0; */
   background-image: url("../public/white-fabric.webp");
 }
-a{
+a {
   font-weight: bold;
 }
 </style>

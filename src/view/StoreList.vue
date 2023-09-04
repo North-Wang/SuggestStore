@@ -1,6 +1,6 @@
 <template>
   <div class="bg-pattern h-screen">
-    <h1 class="text-3xl font-bold underline">店家列表</h1>
+    <h1 class="text-3xl font-bold ">店家列表</h1>
   </div>
 </template>
 
