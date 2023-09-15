@@ -1,11 +1,24 @@
 <template>
-  <ul class="py-4">
-    <h2>
-      <span class="cursor-pointer" @click="openOption">+&nbsp;</span>
+  <ul class="py-4 flex flex-col items-center">
+    <h2 class="button-title" @click="openOption" v-show="!toggleTitleButton">
+      <span>+&nbsp;</span>
       {{ title }}
     </h2>
-    <transition>
-      <li class="grid gap-4 grid-cols-4 mt-2" v-show="showOptions">
+    <h2
+      class="button-title"
+      style="background-color: unset; color: black; border: 1px solid black"
+      @click="openOption"
+      v-show="toggleTitleButton"
+    >
+      {{ title }}
+    </h2>
+
+    <transition
+      name="show-options"
+      enter-active-class="animate__animated animate__flipInX "
+      leave-active-class="animate__animated animate__flipOutX"
+    >
+      <li class="grid gap-4 grid-cols-4 mt-2" v-if="showOptions">
         <div
           class="bg-slate-400 rounded-lg cursor-pointer flex items-center text-center options"
           v-for="(purple, index) in listData"
@@ -52,10 +65,11 @@ const props = defineProps({
 const allListData = ref([]);
 const listData = ref([]);
 const showMore = ref(false);
-const showOptions = ref(true);
+const showOptions = ref(false);
 const title = computed(() => {
   return props.title;
 });
+const toggleTitleButton = ref(false);
 const emits = defineEmits(["checkedValue"]);
 
 const selectedRadio = (value) => {
@@ -63,6 +77,7 @@ const selectedRadio = (value) => {
 };
 
 const openOption = () => {
+  toggleTitleButton.value = !toggleTitleButton.value;
   if (showOptions.value) {
     showOptions.value = false;
   } else {
@@ -110,11 +125,32 @@ onMounted(() => {
 }
 .v-enter-active,
 .v-leave-active {
-  transition: opacity 0.5s ease;
+  transition: opacity 0.3s ease-out;
 }
 
 .v-enter-from,
 .v-leave-to {
   opacity: 0;
+}
+@keyframes backgroundColor {
+  from {
+    background-color: rgb(6, 6, 66);
+  }
+  to {
+    background-color: aquamarine;
+  }
+}
+.button-title {
+  border: 0;
+  background-color: rgb(6, 6, 66);
+  color: white;
+  padding: 2px 16px;
+  border-radius: 20px;
+  cursor: pointer;
+  width: fit-content;
+}
+.button-title:checked {
+  border: 0;
+  background-color: aquamarine !important;
 }
 </style>

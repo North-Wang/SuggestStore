@@ -1,6 +1,16 @@
 <template>
   <div class="bg-pattern h-screen flex items-center flex-col pt-4">
     <ul class="py-4">
+      <input
+        class="text-center mt-2 w-60 h-15"
+        type="text"
+        v-model="answer"
+        placeholder="推薦的地方是..."
+        readonly
+      />
+    </ul>
+    <div class="refresh"></div>
+    <ul class="py-4">
       <h2>Maxium People</h2>
       <input
         class="text-center mt-2 w-30"
@@ -44,10 +54,11 @@
         <div class="dropdown">篤行路三段</div>
       </li>
     </ul> -->
-    <ul class="py-4">
-      <h2>+ Feature</h2>
-      <li class="mt-2"></li>
-    </ul>
+    <Option
+      title="Feature"
+      :listData="featureList"
+      @checkedValue="checkedPurple"
+    ></Option>
     <ul>
       <button class="w-64">Send</button>
     </ul>
@@ -64,6 +75,7 @@ import axios from "axios";
 const dataFunction = getStoreData();
 const storeData = ref({});
 
+const answer = ref("");
 const peopleLimit = ref("");
 const lowPrice = ref(0);
 const highPrice = ref(null);
@@ -73,13 +85,8 @@ const purpleList = ref([
   "朋友聚會",
   "讀書工作",
   "久坐辦公",
-  "aaa",
-  "bbb",
-  "ccc",
-  "aaa",
-  "bbb",
-  "ccc",
 ]);
+const featureList = ref([]);
 
 const selectedPurple = (value) => {
   console.log("選擇的目的", value);
@@ -101,7 +108,7 @@ const getData = async function () {
       console.log("標題", titleList);
       console.log("店家資訊", storeData.value);
       dataFunction.saveData(storeData.value);
-      // setPurple();
+      Promise.all([setPurple(), setFeature()]);
     })
     .catch((error) => console.log(error));
 };
@@ -114,6 +121,16 @@ const setPurple = () => {
   purpleList.value = [...category];
   console.log("目的的種類", Object.values(category));
 };
+
+const setFeature = () => {
+  let category = new Set();
+  storeData.value.forEach((store) => {
+    category.has(store[6]) ? "" : category.add(store[6]);
+  });
+  featureList.value = [...category];
+  console.log("feature的種類", featureList.value);
+};
+
 onMounted(async function () {
   getData();
 });
@@ -144,5 +161,16 @@ onMounted(async function () {
   padding: 0.6em 1.2em;
   background-color: white;
   border-radius: 0.5rem;
+}
+.refresh {
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+  background-color: #60aaff;
+  cursor: pointer;
+  border: 0;
+}
+.refresh:hover {
+  background-color: rgb(65, 68, 240);
 }
 </style>
