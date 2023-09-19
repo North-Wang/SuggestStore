@@ -1,15 +1,16 @@
 <template>
-  <div class="bg-pattern h-screen flex items-center flex-col pt-4">
-    <ul class="py-4">
-      <input
-        class="text-center mt-2 w-60 h-15"
-        type="text"
-        v-model="answer"
-        placeholder="推薦的地方是..."
-        readonly
-      />
+  <div class="bg-pattern h-screen flex items-center flex-col pt-4 xl:pt-12">
+    <ul class="flex items-center">
+      <h1 class="text-2xl xl:text-5xl">肥前屋</h1>
+      <i
+        class="fa-solid fa-rotate cursor-pointer ml-2 text-[20px] xl:text-[28px]"
+        style=""
+        @click="refresh"
+      ></i>
+      <!-- <i class="fa-solid fa-spinner fa-spin-pulse"></i> -->
+      <!-- fa-sync fa-spin -->
     </ul>
-    <div class="refresh"></div>
+
     <ul class="py-4">
       <h2>Maxium People</h2>
       <input
@@ -60,7 +61,7 @@
       @checkedValue="checkedPurple"
     ></Option>
     <ul>
-      <button class="w-64">Send</button>
+      <button class="w-64" @click="sendData">Send</button>
     </ul>
   </div>
 </template>
@@ -94,6 +95,10 @@ const selectedPurple = (value) => {
 
 const checkedPurple = (data) => {
   console.log("接收到的目的", data);
+};
+
+const sendData = () => {
+  console.log("篩選", data);
 };
 
 const getData = async function () {
@@ -131,6 +136,10 @@ const setFeature = () => {
   console.log("feature的種類", featureList.value);
 };
 
+const refresh = () => {
+  console.log("更新名單");
+};
+
 onMounted(async function () {
   getData();
 });
@@ -161,16 +170,5 @@ onMounted(async function () {
   padding: 0.6em 1.2em;
   background-color: white;
   border-radius: 0.5rem;
-}
-.refresh {
-  width: 30px;
-  height: 30px;
-  border-radius: 50%;
-  background-color: #60aaff;
-  cursor: pointer;
-  border: 0;
-}
-.refresh:hover {
-  background-color: rgb(65, 68, 240);
 }
 </style>

@@ -1,24 +1,24 @@
 .bg-pattern {
-    background-image: url("../public/white-fabric.webp");
+  background-image: url("../public/white-fabric.webp");
 }
 
 /* font-size start */
 h1 {
-    font-size: 3.2em;
-    line-height: 1.1;
+  /* font-size: 3.2rem; */
+  line-height: 1.1;
 }
 
-h2{
-    font-size: 24px;
+h2 {
+  font-size: 24px;
 }
 
-h3{
-    font-size: 20px;
+h3 {
+  font-size: 20px;
 }
 
 /* font -size end */
-input[type="text" ]{
-    height: 40px;
-    border-radius: 8px;
-    font-size: 20px;
+input[type="text"] {
+  height: 40px;
+  border-radius: 8px;
+  font-size: 20px;
 }
