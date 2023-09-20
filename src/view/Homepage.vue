@@ -55,11 +55,11 @@
         <div class="dropdown">篤行路三段</div>
       </li>
     </ul> -->
-    <Option
+    <Checkbox
       title="Feature"
       :listData="featureList"
-      @checkedValue="checkedPurple"
-    ></Option>
+      @checkedValue="checkedFeature"
+    ></Checkbox>
     <ul>
       <button class="w-64" @click="sendData">Send</button>
     </ul>
@@ -69,6 +69,7 @@
 <script setup>
 import { ref, onMounted } from "vue";
 import Option from "../components/Option.vue";
+import Checkbox from "../components/Checkbox.vue";
 import { storeToRefs } from "pinia";
 import { getStoreData } from "../store/getStoreData";
 import axios from "axios";
@@ -96,9 +97,12 @@ const selectedPurple = (value) => {
 const checkedPurple = (data) => {
   console.log("接收到的目的", data);
 };
+const checkedFeature = (data) => {
+  console.log("接收到的特質", data);
+};
 
 const sendData = () => {
-  console.log("篩選", data);
+  console.log("篩選");
 };
 
 const getData = async function () {
