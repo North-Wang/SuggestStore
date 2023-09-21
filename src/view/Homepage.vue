@@ -1,7 +1,7 @@
 <template>
   <div class="bg-pattern h-screen flex items-center flex-col pt-4 xl:pt-12">
     <ul class="flex items-center">
-      <h1 class="text-2xl xl:text-5xl">肥前屋</h1>
+      <h1 class="text-2xl xl:text-5xl">{{ answer[0] }}</h1>
       <i
         class="fa-solid fa-rotate cursor-pointer ml-2 text-[20px] xl:text-[28px]"
         style=""
@@ -57,7 +57,7 @@
     </ul> -->
     <Checkbox
       title="Feature"
-      :listData="featureList"
+      :listData="feature"
       @checkedValue="checkedFeature"
     ></Checkbox>
     <ul>
@@ -75,9 +75,10 @@ import { getStoreData } from "../store/getStoreData";
 import axios from "axios";
 
 const dataFunction = getStoreData();
-const storeData = ref({});
+const storeData = ref([]);
+const { storeList } = storeToRefs(dataFunction);
 
-const answer = ref("");
+const answer = ref(["肥前屋"]);
 const peopleLimit = ref("");
 const lowPrice = ref(0);
 const highPrice = ref(null);
@@ -88,7 +89,7 @@ const purpleList = ref([
   "讀書工作",
   "久坐辦公",
 ]);
-const featureList = ref([]);
+const feature = ref([]);
 
 const selectedPurple = (value) => {
   console.log("選擇的目的", value);
@@ -103,6 +104,11 @@ const checkedFeature = (data) => {
 
 const sendData = () => {
   console.log("篩選");
+  if (feature.value.length != 0) {
+    answer.value = storeList.value.filter(
+      (store) => store.feature === feature.value
+    );
+  }
 };
 
 const getData = async function () {
@@ -113,8 +119,23 @@ const getData = async function () {
     .then((result) => {
       console.log("result", result);
       const titleList = result.data.values[0];
-      storeData.value = result.data.values.slice(1);
+      const storeList = result.data.values.slice(1);
+      // storeData.value = result.data.values.slice(1);
       console.log("標題", titleList);
+
+      storeList.forEach((store) => {
+        storeData.value.push({
+          name: store[0],
+          category: store[1],
+          peopleLimit: store[2],
+          purple: store[3],
+          lowPrice: store[4],
+          highPrice: store[5],
+          address: store[6],
+          feature: store[8],
+          type: store[9],
+        });
+      });
       console.log("店家資訊", storeData.value);
       dataFunction.saveData(storeData.value);
       Promise.all([setPurple(), setFeature()]);
@@ -125,19 +146,22 @@ const getData = async function () {
 const setPurple = () => {
   let category = new Set();
   storeData.value.forEach((store) => {
-    category.has(store[3]) ? "" : category.add(store[3]);
+    category.has(store.purple) ? "" : category.add(store.purple);
   });
   purpleList.value = [...category];
+  purpleList.value = purpleList.value.filter((option) => option !== "");
   console.log("目的的種類", Object.values(category));
 };
 
 const setFeature = () => {
   let category = new Set();
   storeData.value.forEach((store) => {
-    category.has(store[6]) ? "" : category.add(store[6]);
+    console.log("aaa store", store);
+    category.has(store.feature) ? "" : category.add(store.feature);
   });
-  featureList.value = [...category];
-  console.log("feature的種類", featureList.value);
+  feature.value = [...category];
+  feature.value = feature.value.filter((option) => option !== "");
+  console.log("feature的種類", feature.value);
 };
 
 const refresh = () => {
