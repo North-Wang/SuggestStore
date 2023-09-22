@@ -1,7 +1,7 @@
 <template>
   <ul class="py-4 flex flex-col items-center">
     <h2 class="button-title" @click="openOption" v-show="!toggleTitleButton">
-      <span>+&nbsp;</span>
+      <i class="fa-solid fa-plus"></i>
       {{ title }}
     </h2>
     <h2
@@ -10,6 +10,7 @@
       @click="openOption"
       v-show="toggleTitleButton"
     >
+      <i class="fa-solid fa-minus"></i>
       {{ title }}
     </h2>
 
@@ -20,7 +21,7 @@
     >
       <li class="grid gap-4 grid-cols-4 mt-2" v-if="showOptions">
         <div
-          class="bg-slate-400 rounded-lg cursor-pointer flex items-center text-center options"
+          class="bg-slate-400 rounded-lg flex items-center text-center options"
           v-for="(purple, index) in listData"
           :key="purple"
         >
@@ -29,12 +30,13 @@
             name="purple"
             v-model="selectedList"
             :id="purple + index"
-            class="input-radio ml-2 h-10"
-            @click="selectedCheckbox()"
+            :value="purple"
+            class="input-radio ml-2 h-10 cursor-pointer"
+            @change="selectedCheckbox()"
           />
           <label
             :for="purple + index"
-            class="pr-4 h-10 flex items-center pl-1"
+            class="pr-4 h-10 flex items-center pl-1 cursor-pointer"
             >{{ purple }}</label
           >
         </div>

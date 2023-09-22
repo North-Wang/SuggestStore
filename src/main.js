@@ -20,6 +20,10 @@ import { faUserSecret } from "@fortawesome/free-solid-svg-icons";
 library.add(faUserSecret);
 
 const app = createApp(App);
+
+app.config.errorHandler = (err) => {
+  console.error("捕抓到錯誤訊息", err);
+};
 app
   .use(createPinia())
   .use(router)

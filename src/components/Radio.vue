@@ -1,7 +1,7 @@
 <template>
   <ul class="py-4 flex flex-col items-center">
     <h2 class="button-title" @click="openOption" v-show="!toggleTitleButton">
-      <span>+&nbsp;</span>
+      <i class="fa-solid fa-plus"></i>
       {{ title }}
     </h2>
     <h2
@@ -10,6 +10,7 @@
       @click="openOption"
       v-show="toggleTitleButton"
     >
+      <i class="fa-solid fa-minus"></i>
       {{ title }}
     </h2>
 
