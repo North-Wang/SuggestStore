@@ -1,11 +1,15 @@
 <template>
-  <ul class="py-4 flex flex-col items-center">
-    <h2 class="button-title" @click="openOption" v-show="!toggleTitleButton">
+  <ul class="pt-4 flex flex-col items-center">
+    <h2
+      class="button-title w-64"
+      @click="openOption"
+      v-show="!toggleTitleButton"
+    >
       <i class="fa-solid fa-plus"></i>
       {{ title }}
     </h2>
     <h2
-      class="button-title"
+      class="button-title w-64"
       style="background-color: unset; color: black; border: 1px solid black"
       @click="openOption"
       v-show="toggleTitleButton"
@@ -39,7 +43,7 @@
           >
         </div>
         <div
-          class="bg-slate-300 rounded-lg cursor-pointer flex items-center text-center options"
+          class="bg-slate-300 rounded-lg cursor-pointer flex items-center justify-center text-center options"
           v-if="showMore"
           @click="getAllData"
         >
@@ -148,7 +152,6 @@ onMounted(() => {
   padding: 2px 16px;
   border-radius: 20px;
   cursor: pointer;
-  width: fit-content;
 }
 .button-title:checked {
   border: 0;

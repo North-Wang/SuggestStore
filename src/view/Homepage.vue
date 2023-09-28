@@ -13,7 +13,7 @@
       @click="refresh"
     ></i>
 
-    <ul class="py-4">
+    <ul class="pt-4">
       <h2>Maxium People</h2>
       <input
         class="text-center mt-2 w-30"
@@ -67,7 +67,7 @@
       :listData="category"
       @checkedValue="checkedCategory"
     />
-    <ul>
+    <ul class="pt-8">
       <button class="w-64" @click="sendData">Send</button>
     </ul>
   </div>
@@ -175,15 +175,15 @@ const setFeature = () => {
 };
 
 const setCategory = () => {
-  let categorySet = new Set();
+  let newCategory = new Set();
   storeData.value.forEach((store) => {
     const thisStoreCategory = store.category.toString().split(",");
     thisStoreCategory.forEach((category) => {
-      categorySet.has(category) ? "" : categorySet.add(category);
+      newCategory.has(category) ? "" : newCategory.add(category);
     });
   });
-  categorySet.value = [...categorySet];
-  categorySet.value = categorySet.value.filter((option) => option !== "");
+  category.value = [...newCategory];
+  category.value = category.value.filter((option) => option !== "");
 };
 
 const sendData = () => {

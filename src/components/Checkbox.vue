@@ -1,11 +1,15 @@
 <template>
-  <ul class="py-4 flex flex-col items-center">
-    <h2 class="button-title" @click="openOption" v-show="!toggleTitleButton">
+  <ul class="pt-4 flex flex-col items-center">
+    <h2
+      class="button-title w-64"
+      @click="openOption"
+      v-show="!toggleTitleButton"
+    >
       <i class="fa-solid fa-plus"></i>
       {{ title }}
     </h2>
     <h2
-      class="button-title"
+      class="button-title w-64"
       style="background-color: unset; color: black; border: 1px solid black"
       @click="openOption"
       v-show="toggleTitleButton"
@@ -151,7 +155,6 @@ onMounted(() => {
   padding: 2px 16px;
   border-radius: 20px;
   cursor: pointer;
-  width: fit-content;
 }
 .button-title:checked {
   border: 0;
