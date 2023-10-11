@@ -14,10 +14,10 @@ const router = createRouter({
       component: Homepage,
     },
     {
-        path: "/StoreList",
-        name: "StoreList",
-        component: () => import("../view/StoreList.vue"),
-      },
+      path: "/StoreList",
+      name: "StoreList",
+      component: () => import("../view/StoreList.vue"),
+    },
   ],
 });
 
