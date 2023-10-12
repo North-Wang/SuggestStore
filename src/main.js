@@ -19,6 +19,7 @@ import { faUserSecret } from "@fortawesome/free-solid-svg-icons";
 /* add icons to the library */
 library.add(faUserSecret);
 
+Vue.config.productionTip = false; //禁止開發模式的提示
 const app = createApp(App);
 
 app.config.errorHandler = (err) => {
