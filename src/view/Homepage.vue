@@ -62,7 +62,7 @@
       :listData="feature"
       @checkedValue="checkedFeature"
     />
-    <Radio
+    <Checkbox
       title="Category"
       :listData="category"
       @checkedValue="checkedCategory"
@@ -80,6 +80,7 @@ import Checkbox from "../components/Checkbox.vue";
 import { storeToRefs } from "pinia";
 import { getStoreData } from "../store/getStoreData";
 import axios from "axios";
+import { fas } from "@fortawesome/free-solid-svg-icons";
 
 const dataFunction = getStoreData();
 const storeData = ref([]);
@@ -105,6 +106,7 @@ const purpleList = ref([
 const feature = ref([]);
 const category = ref([]);
 const selectedFeature = ref([]);
+const selectedCategory = ref([]);
 
 const selectedPurple = (value) => {
   console.log("選擇的目的", value);
@@ -120,6 +122,7 @@ const checkedFeature = (data) => {
 
 const checkedCategory = (data) => {
   console.log("接收到的category", data);
+  selectedCategory.value = data;
 };
 
 const getData = async function () {
@@ -193,9 +196,18 @@ const sendData = () => {
     });
   }
 
-  if (selectedFeature.value.length === 0) {
-    answerList.value = storeList.value;
-  }
+  //aaa 未完成
+  // if (selectedCategory.value.length != 0) {
+  //   answerList.value = storeList.value.filter((store) => {
+  //     const categoryList = store.category.split(",");
+
+  //     if (categoryList.indexOf(selectedCategory.value[0]) != -1) {
+  //       return true;
+  //     } else {
+  //       return false;
+  //     }
+  //   });
+  // }
   answer.value = answerList.value[0].name;
   address.value = answerList.value[0].address;
   console.log("篩選結果", answerList.value);

@@ -12,4 +12,5 @@ export const getStoreData = defineStore({
       // console.log("收到的店家資訊",this.storeList)
     },
   },
+  persist: true,
 });

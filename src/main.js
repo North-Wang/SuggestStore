@@ -1,5 +1,13 @@
 import { createApp } from "vue";
-import { createPinia } from "pinia";
+import { createPinia, storeToRefs } from "pinia";
+const pinia = createPinia();
+pinia.use(
+  createPersistedState({
+    storage: sessionStorage, //設定Pinia檔persist為true時，默認資料儲存的位置
+  })
+);
+import piniaPluginPersistedstate from "pinia-plugin-persistedstate";
+import { createPersistedState } from "pinia-plugin-persistedstate";
 import "./css/style.css";
 import App from "./App.vue";
 import router from "./router";
@@ -26,6 +34,7 @@ app.config.errorHandler = (err) => {
   console.error("捕抓到錯誤訊息", err);
 };
 app
+  .use(pinia)
   .use(createPinia())
   .use(router)
   .component("font-awesome-icon", FontAwesomeIcon)

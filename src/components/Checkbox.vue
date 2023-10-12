@@ -26,6 +26,7 @@
       <li class="grid gap-4 grid-cols-4 mt-2" v-if="showOptions">
         <div
           class="bg-slate-400 rounded-lg flex items-center text-center options"
+          style="background-color: rgb(148 163 184)"
           v-for="(purple, index) in listData"
           :key="purple"
         >
@@ -46,6 +47,7 @@
         </div>
         <div
           class="bg-slate-300 rounded-lg cursor-pointer flex items-center text-center options"
+          style="background-color: rgb(148 163 184)"
           v-if="showMore"
           @click="getAllData"
         >
