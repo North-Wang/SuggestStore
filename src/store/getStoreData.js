@@ -1,5 +1,4 @@
 import { defineStore } from "pinia";
-import axios from "axios";
 
 export const getStoreData = defineStore({
   id: "storeData",

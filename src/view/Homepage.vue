@@ -80,7 +80,6 @@ import Checkbox from "../components/Checkbox.vue";
 import { storeToRefs } from "pinia";
 import { getStoreData } from "../store/getStoreData";
 import axios from "axios";
-import { fas } from "@fortawesome/free-solid-svg-icons";
 
 const dataFunction = getStoreData();
 const storeData = ref([]);
