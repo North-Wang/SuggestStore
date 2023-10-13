@@ -20,7 +20,6 @@ import { storeToRefs } from "pinia";
 import { getStoreData } from "../store/getStoreData";
 
 const storeData = getStoreData();
-const list = ref([]);
 const { storeList } = storeToRefs(storeData);
 
 onMounted(() => {
