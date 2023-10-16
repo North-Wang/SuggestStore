@@ -8,6 +8,7 @@
         id=""
         placeholder="請輸入店名"
         class="text-center"
+        v-model="inputStore"
       />
       <input
         type="text"
@@ -15,6 +16,7 @@
         id=""
         placeholder="請輸入地址"
         class="text-center"
+        v-model="inputAddress"
       />
       <li></li>
     </ul>
@@ -39,6 +41,51 @@ import axios from "axios";
 
 const dataFunction = getStoreData();
 const storeList = ref([]);
+const backupList = ref([]); //備份全部的店家資訊
+const inputStore = ref("");
+const inputAddress = ref("");
+
+watch(inputStore, (keyword) => {
+  // console.log("搜尋店名", keyword);
+  // searchStore(keyword);
+});
+watch(inputAddress, (keyword) => {
+  // console.log("搜尋地址", keyword);
+  // searchAddress(keyword);
+});
+
+watch([inputStore, inputAddress], (keywordList, index) => {
+  //清除沒輸入input的變數
+  const newKeywordList = keywordList.filter((keyword) => {
+    return keyword != "";
+  });
+  console.log("搜尋", newKeywordList);
+  if (newKeywordList.length === 0) {
+    //沒有任何關鍵字搜尋
+    storeList.value = backupList.value;
+  } else {
+    newKeywordList.forEach((keyword) => {
+      console.log("aaa keyword", keyword);
+      storeList.value = storeList.value.filter((store) => {
+        return store.name.includes(keyword);
+      });
+    });
+  }
+});
+
+const searchStore = (keyword) => {
+  storeList.value = storeList.value.filter((store) => {
+    return store.name.includes(keyword);
+  });
+};
+const searchAddress = (keyword) => {
+  if (keyword === "") {
+  } else {
+    storeList.value = storeList.value.filter((store) => {
+      return store.address.includes(keyword);
+    });
+  }
+};
 
 const getData = async function () {
   axios
@@ -63,10 +110,12 @@ const getData = async function () {
         });
       });
       dataFunction.saveData(storeList.value);
+      backupList.value = storeList.value;
       console.log("店家資訊", storeList.value);
     })
     .catch((error) => console.log(error));
 };
+
 onMounted(() => {
   getData();
 });
