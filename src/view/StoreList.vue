@@ -20,8 +20,23 @@
       />
       <li></li>
     </ul>
-    <DataTable :value="storeList" class="storeList">
-      <Column field="name" header="店家名稱" :sortable="true" />
+    <DataTable
+      :value="storeList"
+      class="storeList"
+      editMode="cell"
+      @cell-edit-complete="onCellEditComplete"
+      tableClass="editable-cells-table"
+    >
+      <Column field="name" header="店家名稱" :sortable="true">
+        <template #editor="{ data, field }">
+          <input
+            type="text"
+            name="storeName"
+            :value="data[field]"
+            @input="changeInput"
+          />
+        </template>
+      </Column>
       <Column field="address" header="地址" />
       <Column field="category" header="類型" />
       <Column field="feature" header="特性" :sortable="true" />
@@ -38,12 +53,18 @@ import Column from "primevue/column";
 import { getStoreData } from "../store/getStoreData";
 import { storeToRefs } from "pinia";
 import axios from "axios";
+import "primevue/resources/themes/lara-light-blue/theme.css";
 
 const dataFunction = getStoreData();
 const storeList = ref([]);
 const backupList = ref([]); //備份全部的店家資訊
 const inputStore = ref("");
 const inputAddress = ref("");
+const editStoreName = ref("test");
+
+watch(editStoreName, (data, index) => {
+  console.log("監聽到編輯", data, index);
+});
 
 watch(inputStore, (keyword) => {
   // console.log("搜尋店名", keyword);
@@ -85,6 +106,14 @@ const searchAddress = (keyword) => {
       return store.address.includes(keyword);
     });
   }
+};
+
+const changeInput = (data) => {
+  console.log("aaa input框變化", data);
+};
+const onCellEditComplete = (event) => {
+  let { data, newValue, field } = event;
+  console.log("aaa field", field);
 };
 
 const getData = async function () {
