@@ -48,6 +48,7 @@
       title="Purple"
       :listData="purpleList"
       @checkedValue="checkedPurple"
+      @reset="selectedPurple = ''"
     />
     <!-- <ul class="py-4">
       <h2>Location</h2>
@@ -61,11 +62,13 @@
       title="Feature"
       :listData="feature"
       @checkedValue="checkedFeature"
+      @reset="selectedFeature = []"
     />
     <Checkbox
       title="Category"
       :listData="category"
       @checkedValue="checkedCategory"
+      @reset="selectedCategory = []"
     />
     <ul class="pt-8">
       <button class="w-64" @click="sendData">Send</button>
@@ -82,10 +85,11 @@ import { getStoreData } from "../store/getStoreData";
 import axios from "axios";
 
 const dataFunction = getStoreData();
-const storeData = ref([]);
+const storeData = ref([]); //全部的店家資訊
 const { storeList } = storeToRefs(dataFunction);
 
 const answerList = ref([
+  //篩選後的店家列表
   {
     name: "肥前屋",
   },
@@ -104,15 +108,13 @@ const purpleList = ref([
 ]);
 const feature = ref([]);
 const category = ref([]);
+const selectedPurple = ref("");
 const selectedFeature = ref([]);
 const selectedCategory = ref([]);
 
-const selectedPurple = (value) => {
-  console.log("選擇的目的", value);
-};
-
 const checkedPurple = (data) => {
   console.log("接收到的目的", data);
+  selectedPurple.value = data;
 };
 const checkedFeature = (data) => {
   console.log("接收到的特質", data);
@@ -189,15 +191,23 @@ const setCategory = () => {
 };
 
 const sendData = () => {
+  if (selectedPurple.value != "") {
+    //aaa 製作篩選目的
+    answerList.value = storeData.value.filter((store) => {
+      return store.purple === selectedPurple.value;
+    });
+    console.log("篩選完目的", answerList.value);
+  }
+
   if (selectedFeature.value.length != 0) {
-    answerList.value = storeList.value.filter((store) => {
+    answerList.value = storeData.value.filter((store) => {
       return selectedFeature.value.some((feature) => store.feature === feature);
     });
   }
 
   //aaa 未完成
   // if (selectedCategory.value.length != 0) {
-  //   answerList.value = storeList.value.filter((store) => {
+  //   answerList.value = storeData.value.filter((store) => {
   //     const categoryList = store.category.split(",");
 
   //     if (categoryList.indexOf(selectedCategory.value[0]) != -1) {
@@ -207,8 +217,16 @@ const sendData = () => {
   //     }
   //   });
   // }
-  answer.value = answerList.value[0].name;
-  address.value = answerList.value[0].address;
+
+  /* 顯示篩選的結果 */
+  if (answerList.value.length != 0) {
+    answer.value = answerList.value[0].name;
+    address.value = answerList.value[0].address;
+  } else {
+    answer.value = "無適合的地點";
+    address.value = "";
+  }
+
   console.log("篩選結果", answerList.value);
 };
 

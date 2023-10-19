@@ -1,6 +1,7 @@
 <template>
   <div class="bg-pattern h-screen flex flex-col items-center">
     <h1 class="text-3xl font-bold py-4">店家列表</h1>
+    <button @click="updateData">上傳資料</button>
     <ul>
       <input
         type="text"
@@ -28,16 +29,23 @@
       tableClass="editable-cells-table"
     >
       <Column field="name" header="店家名稱" :sortable="true">
+        <template #body="{ data, field }"> {{ data[field] }} </template>
         <template #editor="{ data, field }">
-          <input
+          <!-- <input
             type="text"
             name="storeName"
             :value="data[field]"
             @input="changeInput"
-          />
+          /> -->
+          <template>
+            <InputText v-model="data[field]" />
+          </template>
         </template>
       </Column>
       <Column field="address" header="地址" />
+      <template #editor="{ data, field }">
+        <InputText v-model="data[field]" />
+      </template>
       <Column field="category" header="類型" />
       <Column field="feature" header="特性" :sortable="true" />
       <Column field="type" header="種類" :sortable="true" />
@@ -109,11 +117,11 @@ const searchAddress = (keyword) => {
 };
 
 const changeInput = (data) => {
-  console.log("aaa input框變化", data);
+  // console.log("aaa input框變化", data);
 };
 const onCellEditComplete = (event) => {
   let { data, newValue, field } = event;
-  console.log("aaa field", field);
+  console.log("aaa event", event);
 };
 
 const getData = async function () {
@@ -144,6 +152,8 @@ const getData = async function () {
     })
     .catch((error) => console.log(error));
 };
+
+const updateData = async function () {};
 
 onMounted(() => {
   getData();

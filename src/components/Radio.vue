@@ -77,8 +77,13 @@ const title = computed(() => {
   return props.title;
 });
 const toggleTitleButton = ref(false);
-const emits = defineEmits(["checkedValue"]);
+const emits = defineEmits(["checkedValue", "reset"]);
 
+watch(toggleTitleButton, (boolean) => {
+  if (!boolean) {
+    emits("reset");
+  }
+});
 const selectedRadio = (value) => {
   emits("checkedValue", value);
 };

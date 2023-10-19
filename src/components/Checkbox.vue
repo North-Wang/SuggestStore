@@ -80,7 +80,13 @@ const title = computed(() => {
 });
 const toggleTitleButton = ref(false);
 const selectedList = ref([]);
-const emits = defineEmits(["checkedValue"]);
+const emits = defineEmits(["checkedValue", "reset"]);
+
+watch(toggleTitleButton, (boolean) => {
+  if (!boolean) {
+    emits("reset");
+  }
+});
 
 const selectedCheckbox = () => {
   emits("checkedValue", selectedList.value);
