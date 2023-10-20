@@ -46,7 +46,7 @@
           >
         </div>
         <div
-          class="bg-slate-300 rounded-lg cursor-pointer flex items-center text-center options"
+          class="bg-slate-300 rounded-lg cursor-pointer flex items-center text-center justify-center options"
           style="background-color: rgb(148 163 184)"
           v-if="showMore"
           @click="getAllData"
@@ -80,11 +80,11 @@ const title = computed(() => {
 });
 const toggleTitleButton = ref(false);
 const selectedList = ref([]);
-const emits = defineEmits(["checkedValue", "reset"]);
+const emits = defineEmits(["checkedValue"]);
 
 watch(toggleTitleButton, (boolean) => {
   if (!boolean) {
-    emits("reset");
+    selectedList.value = [];
   }
 });
 

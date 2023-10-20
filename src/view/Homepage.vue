@@ -68,7 +68,6 @@
       title="Category"
       :listData="category"
       @checkedValue="checkedCategory"
-      @reset="selectedCategory = []"
     />
     <ul class="pt-8">
       <button class="w-64" @click="sendData">Send</button>
@@ -86,6 +85,7 @@ import axios from "axios";
 
 const dataFunction = getStoreData();
 const storeData = ref([]); //全部的店家資訊
+const backupFilterStore = ref([]); //備份篩選後的店家資訊。如果空陣列，表示尚未進行篩選
 const { storeList } = storeToRefs(dataFunction);
 
 const answerList = ref([
@@ -191,38 +191,76 @@ const setCategory = () => {
 };
 
 const sendData = () => {
+  /* 重置 用來備份篩選完的陣列 */
+  backupFilterStore.value = [];
+
+  /* 篩選"目的" */
   if (selectedPurple.value != "") {
-    //aaa 製作篩選目的
-    answerList.value = storeData.value.filter((store) => {
-      return store.purple === selectedPurple.value;
-    });
-    console.log("篩選完目的", answerList.value);
+    if (backupFilterStore.value.length === 0) {
+      //之前尚未進行篩選
+      backupFilterStore.value = storeData.value.filter((store) => {
+        return store.purple === selectedPurple.value;
+      });
+    } else {
+      //之前有篩選過
+      backupFilterStore.value = backupFilterStore.value.filter((store) => {
+        return store.purple === selectedPurple.value;
+      });
+    }
   }
 
+  /* 篩選"Feature" */
   if (selectedFeature.value.length != 0) {
-    answerList.value = storeData.value.filter((store) => {
-      return selectedFeature.value.some((feature) => store.feature === feature);
-    });
+    if (backupFilterStore.value.length === 0) {
+      //之前尚未進行篩選
+      backupFilterStore.value = storeData.value.filter((store) => {
+        return selectedFeature.value.some(
+          (feature) => store.feature === feature
+        );
+      });
+    } else {
+      //之前有篩選過
+      backupFilterStore.value = backupFilterStore.value.filter((store) => {
+        return selectedFeature.value.some(
+          (feature) => store.feature === feature
+        );
+      });
+    }
   }
 
   //aaa 未完成
-  // if (selectedCategory.value.length != 0) {
-  //   answerList.value = storeData.value.filter((store) => {
-  //     const categoryList = store.category.split(",");
-
-  //     if (categoryList.indexOf(selectedCategory.value[0]) != -1) {
-  //       return true;
-  //     } else {
-  //       return false;
-  //     }
-  //   });
-  // }
+  /* 篩選"Category" */
+  if (selectedCategory.value.length != 0) {
+    if (backupFilterStore.value.length === 0) {
+      //之前尚未進行篩選
+      backupFilterStore.value = storeData.value.filter((store) => {
+        const categoryList = store.category.split(",");
+        if (categoryList.indexOf(selectedCategory.value[0]) != -1) {
+          return true;
+        } else {
+          return false;
+        }
+      });
+    } else {
+      //之前有篩選過
+      backupFilterStore.value = backupFilterStore.value.filter((store) => {
+        const categoryList = store.category.split(",");
+        if (categoryList.indexOf(selectedCategory.value[0]) != -1) {
+          return true;
+        } else {
+          return false;
+        }
+      });
+    }
+  }
 
   /* 顯示篩選的結果 */
-  if (answerList.value.length != 0) {
+  if (backupFilterStore.value.length != 0) {
+    answerList.value = backupFilterStore.value;
     answer.value = answerList.value[0].name;
     address.value = answerList.value[0].address;
   } else {
+    answerList.value = [];
     answer.value = "無適合的地點";
     address.value = "";
   }
