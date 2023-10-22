@@ -62,6 +62,7 @@ import { getStoreData } from "../store/getStoreData";
 import { storeToRefs } from "pinia";
 import axios from "axios";
 import "primevue/resources/themes/lara-light-blue/theme.css";
+import VirtualScroller from 'primevue/virtualscroller';
 
 const dataFunction = getStoreData();
 const storeList = ref([]);

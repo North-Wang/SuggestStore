@@ -17,7 +17,7 @@
       <h2>Maxium People</h2>
       <input
         class="text-center mt-2 w-30"
-        type="text"
+        type="number"
         v-model="peopleLimit"
         placeholder=""
       />
@@ -27,17 +27,19 @@
       <li class="flex items-center">
         <input
           class="text-center mt-2 input-price"
-          type="text"
+          type="number"
           v-model="lowPrice"
           maxlength="6"
         />
-        <div>&nbsp;~&nbsp;</div>
+
+        <div>&nbsp;NTD&nbsp;~&nbsp;</div>
         <input
           class="text-center mt-2 input-price"
-          type="text"
+          type="number"
           v-model="highPrice"
           maxlength="6"
         />
+        <span>&nbsp;NTD</span>
       </li>
     </ul>
     <!-- <ul class=" py-4" >
@@ -76,8 +78,8 @@
 </template>
 
 <script setup>
-import { ref, onMounted } from "vue";
-import Radio from "../components/radio.vue";
+import { ref, onMounted, watch } from "vue";
+import Radio from "../components/Radio.vue";
 import Checkbox from "../components/Checkbox.vue";
 import { storeToRefs } from "pinia";
 import { getStoreData } from "../store/getStoreData";
@@ -111,6 +113,12 @@ const category = ref([]);
 const selectedPurple = ref("");
 const selectedFeature = ref([]);
 const selectedCategory = ref([]);
+
+watch(lowPrice, (num) => {
+  if (num.trim().length === 0) {
+    lowPrice.value = 0;
+  }
+});
 
 const checkedPurple = (data) => {
   console.log("接收到的目的", data);
@@ -194,20 +202,23 @@ const sendData = () => {
   /* 重置 用來備份篩選完的陣列 */
   backupFilterStore.value = [];
 
-  /* 篩選"目的" */
-  if (selectedPurple.value != "") {
-    if (backupFilterStore.value.length === 0) {
-      //之前尚未進行篩選
-      backupFilterStore.value = storeData.value.filter((store) => {
-        return store.purple === selectedPurple.value;
-      });
-    } else {
-      //之前有篩選過
-      backupFilterStore.value = backupFilterStore.value.filter((store) => {
-        return store.purple === selectedPurple.value;
-      });
+  /* 篩選價格 */
+  //aaa
+  if (highPrice.value.trim().length != 0)
+    if (selectedPurple.value != "") {
+      /* 篩選"目的" */
+      if (backupFilterStore.value.length === 0) {
+        //之前尚未進行篩選
+        backupFilterStore.value = storeData.value.filter((store) => {
+          return store.purple === selectedPurple.value;
+        });
+      } else {
+        //之前有篩選過
+        backupFilterStore.value = backupFilterStore.value.filter((store) => {
+          return store.purple === selectedPurple.value;
+        });
+      }
     }
-  }
 
   /* 篩選"Feature" */
   if (selectedFeature.value.length != 0) {
@@ -228,7 +239,6 @@ const sendData = () => {
     }
   }
 
-  //aaa 未完成
   /* 篩選"Category" */
   if (selectedCategory.value.length != 0) {
     if (backupFilterStore.value.length === 0) {
@@ -259,7 +269,18 @@ const sendData = () => {
     answerList.value = backupFilterStore.value;
     answer.value = answerList.value[0].name;
     address.value = answerList.value[0].address;
+  } else if (
+    backupFilterStore.value.length === 0 &&
+    selectedPurple.value === "" &&
+    selectedFeature.value.length === 0 &&
+    selectedCategory.value.length === 0
+  ) {
+    //沒有任何篩選條件
+    answerList.value = storeData.value;
+    answer.value = answerList.value[0].name;
+    address.value = answerList.value[0].address;
   } else {
+    //沒有符合篩選條件的資料
     answerList.value = [];
     answer.value = "無適合的地點";
     address.value = "";
@@ -300,6 +321,12 @@ onMounted(async function () {
 .options:hover {
   background-color: rgb(49, 49, 195);
   color: white;
+}
+input[type="number"] {
+  height: 40px;
+  border-radius: 8px;
+  text-align: center;
+  font-size: 20px;
 }
 .input-radio:checked {
   background-color: rgb(49, 49, 195);
