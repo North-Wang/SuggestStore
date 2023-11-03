@@ -6,7 +6,7 @@
     "dev": "vite",
     "build": "vite build &&　tailwind build tailwind.css -i ./src/input.css -o ./dist/output.css",
     "preview": "vite preview",
-    "deploy": "gh-pages -d src" 
+    "deploy": "gh-pages -d src"
   },
   "dependencies": {
     "@fortawesome/fontawesome-svg-core": "^6.4.2",
@@ -28,7 +28,7 @@
     "@vitejs/plugin-vue": "^4.2.3",
     "autoprefixer": "^10.4.16",
     "postcss": "^8.4.31",
-    "tailwindcss": "^3.3.3",
+    "tailwindcss": "^3.3.5",
     "vite": "^4.4.9"
   }
 }
