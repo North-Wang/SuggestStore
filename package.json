@@ -5,7 +5,8 @@
   "scripts": {
     "dev": "vite",
     "build": "vite build &&　tailwind build tailwind.css -i ./src/input.css -o ./dist/output.css",
-    "preview": "vite preview"
+    "preview": "vite preview",
+    "deploy": "gh-pages -d src" 
   },
   "dependencies": {
     "@fortawesome/fontawesome-svg-core": "^6.4.2",
@@ -16,6 +17,7 @@
     "@vueuse/core": "^10.5.0",
     "animate.css": "^4.1.1",
     "axios": "^1.5.0",
+    "gh-pages": "^6.0.0",
     "pinia": "^2.1.6",
     "pinia-plugin-persistedstate": "^3.2.0",
     "primevue": "^3.36.0",
