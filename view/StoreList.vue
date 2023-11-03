@@ -1,6 +1,7 @@
 <template>
   <div class="bg-pattern h-screen flex flex-col items-center">
     <h1 class="text-3xl font-bold py-4">店家列表</h1>
+    <button @click="updateData">上傳資料</button>
     <ul>
       <input
         type="text"
@@ -20,9 +21,31 @@
       />
       <li></li>
     </ul>
-    <DataTable :value="storeList" class="storeList">
-      <Column field="name" header="店家名稱" :sortable="true" />
+    <DataTable
+      :value="storeList"
+      class="storeList"
+      editMode="cell"
+      @cell-edit-complete="onCellEditComplete"
+      tableClass="editable-cells-table"
+    >
+      <Column field="name" header="店家名稱" :sortable="true">
+        <template #body="{ data, field }"> {{ data[field] }} </template>
+        <template #editor="{ data, field }">
+          <!-- <input
+            type="text"
+            name="storeName"
+            :value="data[field]"
+            @input="changeInput"
+          /> -->
+          <template>
+            <InputText v-model="data[field]" />
+          </template>
+        </template>
+      </Column>
       <Column field="address" header="地址" />
+      <template #editor="{ data, field }">
+        <InputText v-model="data[field]" />
+      </template>
       <Column field="category" header="類型" />
       <Column field="feature" header="特性" :sortable="true" />
       <Column field="type" header="種類" :sortable="true" />
@@ -38,12 +61,19 @@ import Column from "primevue/column";
 import { getStoreData } from "../store/getStoreData";
 import { storeToRefs } from "pinia";
 import axios from "axios";
+import "primevue/resources/themes/lara-light-blue/theme.css";
+import VirtualScroller from 'primevue/virtualscroller';
 
 const dataFunction = getStoreData();
 const storeList = ref([]);
 const backupList = ref([]); //備份全部的店家資訊
 const inputStore = ref("");
 const inputAddress = ref("");
+const editStoreName = ref("test");
+
+watch(editStoreName, (data, index) => {
+  console.log("監聽到編輯", data, index);
+});
 
 watch(inputStore, (keyword) => {
   // console.log("搜尋店名", keyword);
@@ -87,6 +117,14 @@ const searchAddress = (keyword) => {
   }
 };
 
+const changeInput = (data) => {
+  // console.log("aaa input框變化", data);
+};
+const onCellEditComplete = (event) => {
+  let { data, newValue, field } = event;
+  console.log("aaa event", event);
+};
+
 const getData = async function () {
   axios
     .get(
@@ -115,6 +153,8 @@ const getData = async function () {
     })
     .catch((error) => console.log(error));
 };
+
+const updateData = async function () {};
 
 onMounted(() => {
   getData();

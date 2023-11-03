@@ -25,28 +25,26 @@
     >
       <li class="grid gap-4 grid-cols-4 mt-2" v-if="showOptions">
         <div
-          class="bg-slate-400 rounded-lg flex items-center text-center options"
+          class="bg-slate-400 rounded-lg cursor-pointer flex items-center text-center options"
           style="background-color: rgb(148 163 184)"
           v-for="(purple, index) in listData"
           :key="purple"
+          @click="selectedRadio(purple)"
         >
           <input
-            type="checkbox"
+            type="radio"
             name="purple"
-            v-model="selectedList"
             :id="purple + index"
-            :value="purple"
-            class="input-radio ml-2 h-10 cursor-pointer"
-            @change="selectedCheckbox()"
+            class="input-radio ml-2 h-10"
           />
           <label
             :for="purple + index"
-            class="pr-4 h-10 flex items-center pl-1 cursor-pointer"
+            class="pr-4 h-10 flex items-center pl-1"
             >{{ purple }}</label
           >
         </div>
         <div
-          class="bg-slate-300 rounded-lg cursor-pointer flex items-center text-center options"
+          class="bg-slate-300 rounded-lg cursor-pointer flex items-center justify-center text-center options"
           style="background-color: rgb(148 163 184)"
           v-if="showMore"
           @click="getAllData"
@@ -79,11 +77,15 @@ const title = computed(() => {
   return props.title;
 });
 const toggleTitleButton = ref(false);
-const selectedList = ref([]);
-const emits = defineEmits(["checkedValue"]);
+const emits = defineEmits(["checkedValue", "reset"]);
 
-const selectedCheckbox = () => {
-  emits("checkedValue", selectedList.value);
+watch(toggleTitleButton, (boolean) => {
+  if (!boolean) {
+    emits("reset");
+  }
+});
+const selectedRadio = (value) => {
+  emits("checkedValue", value);
 };
 
 const openOption = () => {
@@ -125,11 +127,11 @@ onMounted(() => {
   background-color: rgb(49, 49, 195);
 }
 /* .input-radio:checked + label {
-    background-color: rgb(49, 49, 195);
-    border-top-right-radius: 0.5rem;
-    border-bottom-right-radius: 0.5rem;
-    color: white;
-  } */
+  background-color: rgb(49, 49, 195);
+  border-top-right-radius: 0.5rem;
+  border-bottom-right-radius: 0.5rem;
+  color: white;
+} */
 .options .input-radio:checked {
   background-color: rgb(49, 49, 195);
 }
