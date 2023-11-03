@@ -203,22 +203,34 @@ const sendData = () => {
   backupFilterStore.value = [];
 
   /* 篩選價格 */
-  //aaa
-  if (highPrice.value.trim().length != 0)
-    if (selectedPurple.value != "") {
-      /* 篩選"目的" */
-      if (backupFilterStore.value.length === 0) {
-        //之前尚未進行篩選
-        backupFilterStore.value = storeData.value.filter((store) => {
-          return store.purple === selectedPurple.value;
-        });
-      } else {
-        //之前有篩選過
-        backupFilterStore.value = backupFilterStore.value.filter((store) => {
-          return store.purple === selectedPurple.value;
-        });
-      }
+  if (Number.isInteger(highPrice.value) && highPrice.value != null) {
+    if (backupFilterStore.value.length === 0) {
+      //之前尚未進行篩選
+      backupFilterStore.value = storeData.value.filter((store) => {
+        return store.highPrice < highPrice.value;
+      });
+    } else {
+      //之前有篩選過
+      backupFilterStore.value = backupFilterStore.value.filter((store) => {
+        return store.highPrice < highPrice.value;
+      });
     }
+  }
+
+  /* 篩選"目的" */
+  if (selectedPurple.value != "") {
+    if (backupFilterStore.value.length === 0) {
+      //之前尚未進行篩選
+      backupFilterStore.value = storeData.value.filter((store) => {
+        return store.purple === selectedPurple.value;
+      });
+    } else {
+      //之前有篩選過
+      backupFilterStore.value = backupFilterStore.value.filter((store) => {
+        return store.purple === selectedPurple.value;
+      });
+    }
+  }
 
   /* 篩選"Feature" */
   if (selectedFeature.value.length != 0) {
