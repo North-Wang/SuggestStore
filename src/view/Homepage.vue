@@ -121,7 +121,7 @@ watch(lowPrice, (num) => {
 });
 
 const checkedPurple = (data) => {
-  console.log("接收到目的", data);
+  console.log("接收到的目的~", data);
   selectedPurple.value = data;
 };
 const checkedFeature = (data) => {

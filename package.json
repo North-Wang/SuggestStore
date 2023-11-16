@@ -4,7 +4,7 @@
   "version": "0.0.0",
   "scripts": {
     "dev": "vite",
-    "build": "vite build &&　tailwind build tailwind.css -i ./src/input.css -o ./dist/output.css",
+    "build": "vite build && tailwind build tailwind.css -i ./src/input.css -o ./dist/output.css",
     "preview": "vite preview",
     "deploy": "gh-pages -d src"
   },
